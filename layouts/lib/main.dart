@@ -9,37 +9,7 @@ class MyApp extends StatelessWidget {
 
     Widget titleSection = Container(
       padding: const EdgeInsets.all(32.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  padding: const EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    "Oeschinen Lake Campground",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold
-                    )
-                  ),
-                ),
-                Text(
-                  "Kandersteg, Switzerland",
-                  style: TextStyle(
-                    color: Colors.grey[500]
-                  ),
-                )
-              ],
-            ),
-          ),
-          Icon(
-            Icons.star,
-            color: Colors.red[500],
-          ),
-          Text("41")
-        ],
-      ),
+      child: FavoriteWidget()
     );
 
     Column buildButtonColumn(IconData icon, String label) {
@@ -111,5 +81,64 @@ Lake Oeschinen lies at the foot of the Blüemlisalp in the Bernese Alps. Situate
         ),
       ),
     );
+  }
+}
+
+class FavoriteWidget extends StatefulWidget {
+
+  _FavoriteWidgetState createState() => _FavoriteWidgetState();
+}
+
+
+class _FavoriteWidgetState extends State<FavoriteWidget> {
+  bool _isFavorited = true;
+  int _favoriteCount = 41;
+
+  void _toggleFavorite() {
+    setState(() {
+          if (_isFavorited) {
+            _favoriteCount -= 1;
+            _isFavorited = false;
+          } else {
+            _favoriteCount += 1;
+            _isFavorited = true;
+          }
+        });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: Text(
+                    "Oeschinen Lake Campground",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold
+                    )
+                  ),
+                ),
+                Text(
+                  "Kandersteg, Switzerland",
+                  style: TextStyle(
+                    color: Colors.grey[500]
+                  ),
+                )
+              ],
+            ),
+          ),
+          IconButton(
+            icon: (_isFavorited ? Icon(Icons.star) : Icon(Icons.star_border)),
+            color: Colors.red[500],
+            onPressed: _toggleFavorite,
+          ),
+          Text("$_favoriteCount")
+        ],
+      );
   }
 }
